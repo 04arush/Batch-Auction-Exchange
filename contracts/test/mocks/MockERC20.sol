@@ -5,14 +5,14 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /// @dev ONLY FOR TESTING. Mintable ERC20 with configurable decimals.
 contract MockERC20 is ERC20 {
-    uint8 private immutable _decimals;
+    uint8 private immutable decimals_;
 
-    constructor(string memory name_, string memory symbol_, uint8 decimals_) ERC20(name_, symbol_) {
-        _decimals = decimals_;
+    constructor(string memory _name, string memory _symbol, uint8 _decimals) ERC20(_name, _symbol) {
+        decimals_ = _decimals;
     }
 
     function decimals() public view override returns (uint8) {
-        return _decimals;
+        return decimals_;
     }
 
     function mint(address to, uint256 amount) external {
