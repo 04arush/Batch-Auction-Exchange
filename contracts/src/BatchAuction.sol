@@ -88,6 +88,6 @@ contract BatchAuction is EIP712, Ownable2Step {
     }
 
     function domainSeparator() external view returns (bytes32) {
-        return _domainSeparator();
+        return _domainSeparatorV4();
     }
 }
