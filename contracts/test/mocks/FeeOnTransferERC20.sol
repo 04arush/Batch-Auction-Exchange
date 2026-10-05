@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.24;
 
-import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /// @dev ONLY FOR TESTING. Burns 1% of every transfer, so the receiver gets less than the 'value'.
 contract FeeOnTransferERC20 is ERC20 {
-
     constructor() ERC20("FeeOnTransfer", "FOT") {}
 
     function mint(address to, uint256 amount) external {
