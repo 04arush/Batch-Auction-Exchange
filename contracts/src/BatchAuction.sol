@@ -104,7 +104,7 @@ contract BatchAuction is EIP712, Ownable2Step, Pausable, ReentrancyGuard {
 
     /// @notice Intentionally NOT pausable. Burn a nonce so the matching signed order can never settle.
     function cancelOrder(uint256 nonce) external {
-        if (nonceUsed[msg.sender][nonce]) revert BatchAuction__NonceAlreadyUsedNonceAlreadyUsed(msg.sender, nonce);
+        if (nonceUsed[msg.sender][nonce]) revert BatchAuction__NonceAlreadyUsed(msg.sender, nonce);
         nonceUsed[msg.sender][nonce] = true;
         emit OrderCancelled(msg.sender, nonce);
     }
