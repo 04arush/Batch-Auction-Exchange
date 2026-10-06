@@ -7,7 +7,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 library ClearMath {
     uint256 internal constant PRICE_SCALE = 1e18;
 
-    error NotSorted(uint256 index);
+    error ClearMath__NotSorted(uint256 index);
 
     struct Entry {
         uint128 base;
@@ -48,7 +48,7 @@ library ClearMath {
     /// @dev Reverts unless the book is strictly sorted by priority (forbids duplicates)
     function assertSorted(Entry[] memory book, bool isBuy) internal pure {
         for (uint256 i = 1; i < book.length; i++) {
-            if (!precedes(book[i - 1], book[i], isBuy)) revert NotSorted(i);
+            if (!precedes(book[i - 1], book[i], isBuy)) revert ClearMath__NotSorted(i);
         }
     }
 
