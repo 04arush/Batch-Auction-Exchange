@@ -16,7 +16,7 @@ contract OrderSignatureTest is Test {
     uint256 internal constant ALICE_PK = 0xA11CE;
     address internal alice = vm.addr(ALICE_PK);
 
-    function setup() public {
+    function setUp() public {
         base = new MockERC20("Base", "BASE", 18);
         quote = new MockERC20("Quote", "QUOTE", 18);
         auction = new BatchAuction(base, quote, 300, address(this), address(0xBEEF));
