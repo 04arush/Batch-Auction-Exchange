@@ -25,7 +25,7 @@ struct SignedOrder {
 
 library OrderLib {
     bytes32 internal constant ORDER_TYPEHASH = keccak256(
-        "Order(address trader, uin8 side, uint128 baseAmount, uint128 limitPrice, uint64 epoch, uint64 expiry, uint256 nonce, address recipient)"
+        "Order(address trader,uint8 side,uint128 baseAmount,uint128 limitPrice,uint64 epoch,uint64 expiry,uint256 nonce,address recipient)"
     );
 
     function hash(Order memory o) internal pure returns (bytes32) {
