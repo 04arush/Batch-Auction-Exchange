@@ -38,13 +38,13 @@ contract OrderSignatureTest is Test {
     function test_digest_matchesIndependentEip712Computation() public view {
         Order memory o = _order();
         bytes32 typeHash = keccak256(
-            "Order(address trader, uint8 side, uint128 baseAmount, uint128 limitPrice, uint64 epoch, uint64 expiry, uint256 nonce, address recipient)"
+            "Order(address trader,uint8 side,uint128 baseAmount,uint128 limitPrice,uint64 epoch,uint64 expiry,uint256 nonce,address recipient)"
         );
         bytes32 structHash = keccak256(
             abi.encode(typeHash, o.trader, uint8(o.side), o.baseAmount, o.limitPrice, o.epoch, o.expiry, o.nonce, o.recipient)
         );
         bytes32 domainTypeHash = keccak256(
-            "EIP712Domain(string name, string version, uint256 chainId, address verifyingContract)"
+            "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
         );
         bytes32 domainSep = keccak256(
             abi.encode(domainTypeHash, keccak256("BatchAuction"), keccak256("1"), block.chainid, address(auction))
