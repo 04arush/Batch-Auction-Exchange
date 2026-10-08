@@ -1,0 +1,64 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable # once a version works for you, pin it (for example v1.5.1) for reproducible CI
+
+      - name: Build
+        run: forge build --sizes
+
+      - name: Test (unit, fuzz, invariant, adversarial, deploy-script)
+        run: forge test -vv
+
+  coverage:
+    name: coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
+
+      # --ir-minimum is required: plain `forge coverage` hits "stack too deep" in settleBatch.
+      - name: Coverage
+        run: |
+          forge coverage --ir-minimum \
+            --no-match-coverage "contracts/(test|script)" \
+            --report summary --report lcov --report-file lcov.info
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lcov
+          path: lcov.info
+
+  slither:
+    name: static analysis
+    runs-on: ubuntu-latest
+    continue-on-error: true # not blocking until you have triaged the findings
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: foundry-rs/foundry-toolchain@v1
+
+      - uses: crytic/slither-action@v0.4.0 # check the current release tag
+        with:
+          slither-config: slither.config.json
+          fail-on: none # change to "medium" after triage
