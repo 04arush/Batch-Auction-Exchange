@@ -1,0 +1,4 @@
+{
+  "filter_paths": "lib|contracts/test|contracts/script",
+  "exclude_informational": false
+}
